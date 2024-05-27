@@ -43,6 +43,8 @@ public class BoardEntity extends BaseEntity {
     // 게시물 1개당 파일 여러개 첨부 가능
     private List<BoardFileEntity> boardFileEntityList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
 
     public static BoardEntity toSaveEntity(Board2DTO boardDTO){
         BoardEntity boardEntity = new BoardEntity();

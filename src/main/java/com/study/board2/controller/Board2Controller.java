@@ -1,7 +1,9 @@
 package com.study.board2.controller;
 
 import com.study.board2.dto.Board2DTO;
+import com.study.board2.dto.CommentDTO;
 import com.study.board2.service.BoardService;
+import com.study.board2.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequestMapping("/board")
 public class Board2Controller {
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("/save")
     public String saveForm() { return "save"; }
@@ -47,6 +50,10 @@ public class Board2Controller {
          */
         boardService.updateHits(id);
         Board2DTO board2DTO = boardService.findById(id);
+        /* 댓글 목록 가져오기 */
+        List<CommentDTO>  commentDTOList = commentService.findAll(id);
+        model.addAttribute("commentList", commentDTOList);
+
         model.addAttribute("board", board2DTO);
         model.addAttribute("page", pageable.getPageNumber());
         return "detail";
